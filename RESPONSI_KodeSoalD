@@ -1,1 +1,163 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <limits>
+using namespace std;
 
+struct tiketPesawat {
+	string kode,maskapai,bandara_asal,bandara_tujuan,tanggal,jam_kedatanggan,jam_keberangkatan,harga;
+};
+
+vector<tiketPesawat>daftartiket;
+
+void muatData() {
+    ifstream file("dataTiket.txt");
+    if (!file) return;
+
+    string kode,maskapai,bandara_asal,bandara_tujuan,tanggal,jam_kedatanggan,jam_keberangkatan,harga;
+    while (getline(file, kode)) {
+        getline(file, maskapai);
+		getline(file, harga);
+		getline(file,bandara_asal);
+		getline(file,bandara_tujuan);
+		getline(file,jam_kedatanggan);
+		getline(file,jam_keberangkatan);
+		getline(file,tanggal);
+    }
+    file.close();
+}
+
+void tampilinData() {
+    if (daftartiket.empty()) {
+        cout << "Tidak ada data Tiket.\n";
+        return;
+    }
+
+    cout << "\n=== Data Tiket ===\n";
+    for (int i = 0; i < daftartiket.size(); ++i) {
+        cout << i + 1 << " Kode penerbangan : " << daftartiket[i].kode << endl; 
+        cout << " Nama maskapai : " << daftartiket[i].maskapai << endl;
+        cout << " Harga Tiket : " << daftartiket[i].harga << endl;
+        cout << " Bandara asal : " << daftartiket[i].bandara_asal <<endl;
+        cout << " Bandara tujuan : " << daftartiket[i].bandara_tujuan <<endl;
+        cout << " Jam keberangkataan : " << daftartiket[i].jam_keberangkatan <<endl;
+        cout << " Jam kedatanggan  : " << daftartiket[i].jam_kedatanggan <<endl;
+        cout << " tanggal Keberangkatan : " << daftartiket[i].tanggal <<endl;
+    }
+}
+
+
+void tambahData() {
+	tiketPesawat t;
+    cout << "Masukkan kode penerbangan: ";
+    cin >> t.kode;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "Masukkan Nama Maskapai: ";
+    getline(cin, t.maskapai);
+    cout<<"Masukan Harga : ";
+    cin.ignore();
+    getline(cin,t.harga);
+    cout<<"Masukan Bandara awal : ";
+    cin.ignore();
+    getline(cin, t.bandara_asal);
+    cout<<"Masukan Bandara Akhir : ";
+    cin.ignore();
+    getline(cin, t.bandara_tujuan);
+    cout<<"Masukan jam Keberangkatan : ";
+    cin.ignore();
+    getline(cin, t.jam_keberangkatan);
+    cout<<"Masuakn jam kedatanggan : ";
+    cin.ignore();
+    getline(cin, t.jam_kedatanggan);
+    cout<<"Masukan tanggal penerbangan : ";
+    cin.ignore();
+    getline(cin, t.tanggal);
+	daftartiket.push_back(t);
+
+	
+    cout << "Data berhasil ditambahkan!\n";
+}
+
+void urut_kecil(){
+	cout << "\n===Sistem Pengurutan Data Harga Tiket Termurah===\n";
+	
+	
+}
+
+void urut_besar(){
+	cout << "\n===Sistem Pengurutan Data Harga Tiket Termahaal===\n";
+	
+	
+}
+
+
+int main() {
+    muatData();
+    int peleh;
+
+    int pilihan;
+    do {
+        cout << "\n===== MENU =====\n";
+        cout << "1. Tambah Data Tiket\n";
+        cout << "2. Tampilkan Data Tiket\n";
+        cout << "3. urutkan data\n";
+        cout << "4. cari data berdasarkan rute penerbangan\n";
+		cout << "5. cari data berdasarkan maskapai\n";
+		cout << "6. cari data berdasarkan harga tertentu\n";   
+        cout << "0. Keluar\n";
+        cout << "Pilih menu (0-6): ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+            case 1:
+                tambahData();
+                break;
+            case 2:
+                tampilinData();
+                break;
+            case 3:
+            	cout << "\n1. Tampilkan Urutan Data Harga Tiket Termurah";
+            	cout << "\n2. Tampilkan Urutan Data Harga Tiket Terkecil";
+            	cout << "\nPeleh Salah Satu Mass : ";
+            	cin >> peleh;
+            	
+            switch (peleh) {
+            case 1:
+                urut_kecil();
+                break;
+            case 2:
+                urut_besar();
+                break;
+            }
+            case 4:
+            	int cari_rute;
+				cout << "Cari Rute Penerbangan saat ini : ";
+				cin >> cari_rute;
+	            cout << "\n===Berikut Data Tiket yang Anda maksud===\n";
+	
+                break;
+            case 5:
+				int maskapai;
+				
+				cout << "Cari Maskapai Penerbangan saat ini : ";
+	            cin >> maskapai;
+				cout << "\n===Berikut Data Tiket yang Anda maksud===\n";
+                break;
+            case 6:
+				int cari_hargaatiket;
+				
+				cout << "Isi harga yang kamu Pengen ( cth. 1000000 (buat 1 jt) ) tidak boleh pakai titik(.): ";
+				cin >> cari_hargaatiket;
+				cout << "\n===Berikut Data Tiket yang Anda maksud===\n";
+            	break;
+            case 0:
+            	cout << "Keluar dari program...\n";
+            	break;
+            default:
+                cout << "Pilihan tidak valid.\n";
+        }
+    } while (pilihan != 0);
+
+    return 0;
+}
